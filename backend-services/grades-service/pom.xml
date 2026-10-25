@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>agentic-university</groupId>
+		<artifactId>root-pom-project</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../root-pom-project/pom.xml</relativePath>
+	</parent>
+
+	<groupId>agentic-university</groupId>
+	<artifactId>grades-service</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>grades-service</name>
+	<description>This service stores the grades for students throughout the courses taken</description>
+	<url>https://github.com/emersonStiver</url>
+	<packaging>jar</packaging>
+
+	<licenses>
+		<license/>
+	</licenses>
+
+	<developers>
+		<developer>
+			<id>emersonstiven1</id>
+			<email>emersonstiven1@gmail.com</email>
+			<name>emerson stiver</name>
+			<organization>agentic-university-portfolio</organization>
+			<roles>
+				<role>developer</role>
+				<role>architect</role>
+				<role>owner</role>
+			</roles>
+			<url>https://github.com/emersonstiver</url>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection/>
+		<developerConnection/>
+		<tag/>
+		<url/>
+	</scm>
+
+
+	<dependencies>
+		
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

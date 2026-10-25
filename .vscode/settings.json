@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.hcl": "terragrunt"
+    },
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "java.compile.nullAnalysis.mode": "automatic"
+}
