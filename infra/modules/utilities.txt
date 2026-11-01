@@ -1,0 +1,134 @@
+index(list, value)
+    list: the list you want to search
+    value: the item you are looking for
+    Returns the index of the value in the list, or -1 if the value is not found.
+
+
+keys(map)
+takes a map and returns a list containing all of the map's keys
+
+
+
+zipmap(keyslist, valueslist)
+• Keys: The first list (keyslist) must contain strings and act as the keys for the map.
+• Values: The second list (valueslist) can contain any data type (strings, numbers, booleans, etc.) and aligns with the keys by index.
+• Equal Length: Both lists must have the exact same number of elements
+
+zipmap(["name", "port"], ["web-server", "8080"])
+{
+  "name" = "web-server"
+  "port" = "8080"
+}
+
+
+one()
+The function behaves differently depending on the number of elements in the collection:
+one([])            # Returns null
+one(["hello"])     # Returns "hello"
+one(["a", "b"])    # Throws an error (collection has more than one element)
+
+
+
+
+STRING:
+
+format, join, split, replace, regex, regexall, substr, lower, upper, trimspace, 
+startswith, endswith, strcontains
+
+COLLECTION:
+
+length, concat, merge, flatten, distinct, keys, values, lookup, contains, zipmap, 
+slice, sort, range, setproduct, coalesce, compact, one, alltrue, anytrue
+
+------------------------------------------ IP NETWORKING ------------------------------------------
+cidrsubnet, cidrsubnets, cidrhost, cidrnetmask
+
+cidrsubnet(prefix, newbits, netnum)
+prefix: base network 
+newbits: decides how many equal pieces to cut the network into (2^newbits pieces)
+netnum: 
+
+With cidrsubnet("10.0.0.0/16", 8, netnum), 8 newbits means 2^8 = 256 pieces of size /24:
+netnum 0    → 10.0.0.0/24
+netnum 1    → 10.0.1.0/24
+netnum 2    → 10.0.2.0/24
+...
+netnum 255  → 10.0.255.0/24
+
+
+
+
+FOR EXPRESSIONS
+It is used inside locals or variables to transform one list/map into another list/map.
+
+Returning a List:  {for TEMPORARY_VARIABLES in SOURCE_COLLECTION : OUTPUT_STRUCTURE}
+                   Brackets [ for ] makes the loop return a new List
+
+1. Looping over a List      [for fruit in var.fruit_list : upper(fruit)]
+
+2. Index and Value          [for i, fruit in var.fruit_list: "${i}-${upper(fruit)}"]
+
+3. Looping over a Map       [for code, name in var.regions_map : "${code} is ${name}"]
+    # Outputs: ["us-east-1 is Virginia", "us-west-2 is Oregon"]
+
+Returning a Map: [for TEMPORARY_VARIABLES in SOURCE_COLLECTION : OUTPUT_STRUCTURE]
+                 Curly braces { for ... }. makes the loop return a new Map (key-value pairs).
+
+1. Curly braces { for ... }. makes the loop return a new Map (key-value pairs).
+   Because a map requires both a key and a value, you use the => symbol 
+   after the colon to tell Terraform what the new keys and values should be
+
+{ for key, value in map : key => value if condition }
+
+local.subnet_map = {
+  "web-1a" = {
+    cidr   = "10.0.1.0/24"
+    public = true
+  }
+  "app-1a" = {
+    cidr   = "10.0.2.0/24"
+    public = false
+  }
+  "db-1a" = {
+    cidr   = "10.0.3.0/24"
+    public = false
+  }
+}
+Example: public_subnets = { for k, v in local.subnet_map : k => v if v.public == true }
+
+
+
+
+
+
+
+
+
+# Outer Loop (Loop 1)
+for t in var.tiers : [
+  
+  # Inner Loop (Loop 2)
+  for i, az in var.azs : {
+    # This code runs for EVERY combination of Tier and AZ
+  }
+
+]
+
+
+
+# { for key, value in map : key => value if condition }
+public_subnets = { for k, v in local.subnet_map : k => v if v.public == true }
+
+
+
+
+Inside resource blocks
+resource "aws_instance" "server" {
+    count = 3;
+    tags = {
+        Name = "server-${count.index}" #count.index gives you 0,1,2
+    }
+}
+
+For Each
+Creates one resource for every item inside a map/set

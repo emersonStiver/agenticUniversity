@@ -1,1 +1,0 @@
-bucket-region=us-east-1

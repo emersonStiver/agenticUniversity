@@ -1,7 +1,7 @@
 resource "aws_s3_bucket" "this" {
   bucket = "tfstate-bucket-account-${var.account_id}"
   lifecycle {
-    prevent_destroy = false
+    prevent_destroy = true
   }
 }
 
@@ -11,17 +11,28 @@ resource "aws_s3_bucket_public_access_block" "this" {
   block_public_policy    = true
   ignore_public_acls     = true
   restrict_public_buckets = true
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "aws_s3_bucket_ownership_controls" "this" {
   bucket = aws_s3_bucket.this.bucket
+  lifecycle {
+    prevent_destroy = true
+  }
   rule {
     object_ownership = "BucketOwnerEnforced"
   }
+  
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "this" {
+
   bucket = aws_s3_bucket.this.bucket
+  lifecycle {
+    prevent_destroy = true
+  }
   rule {
     apply_server_side_encryption_by_default {
       sse_algorithm = var.bucket_kms_key_arn == null ? "AES256" : "aws:kms"
@@ -29,11 +40,15 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "this" {
     }
     bucket_key_enabled = var.bucket_kms_key_arn != null
   }
+ 
 }
 
 resource "aws_s3_bucket_lifecycle_configuration" "this" {
   count = var.bucket_lifecycle_enabled ? 1 : 0
   bucket = aws_s3_bucket.this.bucket
+  lifecycle {
+    prevent_destroy = true
+  }
   rule {
     id = "DisposingNonConcurrentVersions"
     status = "Enabled"
@@ -48,11 +63,16 @@ resource "aws_s3_bucket_lifecycle_configuration" "this" {
       days_after_initiation = 1
     }
   }
+  
 }
 
 resource "aws_s3_bucket_versioning" "this" {
   bucket = aws_s3_bucket.this.bucket
+  lifecycle {
+    prevent_destroy = true
+  }
   versioning_configuration {
   status = var.bucket_versioning_enabled ? "Enabled" : "Suspended"
   }
+  
 }

@@ -1,5 +1,4 @@
 locals {
-  env = "dev"
-  aws_region = "us-east-1"
-
+  environment = "shared"
+  deployment_account_id = "965452087758"
 }

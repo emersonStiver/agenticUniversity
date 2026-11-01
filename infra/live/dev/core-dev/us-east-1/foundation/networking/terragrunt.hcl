@@ -11,9 +11,28 @@ locals {
 }
 
 terraform {
-  source = "${dirname(find_in_parent_folders("root.hcl"))}/../modules//vpc-module"
+  source = "${dirname(find_in_parent_folders("root.hcl"))}/../modules//networking"
 }
 
 inputs = {
-  cidr_block       = "10.0.0.0/16"
+  name = "dev-networking"
+  azs = ["us-east-1a", "us-east-1b", "us-east-1c"]
+  nat_mode = "single"
+  tiers = [
+    {
+      name = "private-app", zone_newbits = 2, nat = true
+    },
+    {
+      name = "public-app", zone_newbits = 4, public = true
+    },
+    {
+      name = "private-db", zone_newbits = 4
+    },
+    {
+      name = "spare", zone_newbits = 4, create = false
+    },
+    {
+      name = "admin", zone_newbits = 5, nat = true
+    }
+  ]
 }

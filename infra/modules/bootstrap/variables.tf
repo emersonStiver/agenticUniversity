@@ -3,7 +3,7 @@ variable "deploy_role" {
   type = string
   default = "TerraformDeployRole"
 }
-variable "shared_account_id" {
+variable "deployment_account_id" {
   type = string
   description = "The account id for the shared account where the pipeline is running"
 }
@@ -11,12 +11,6 @@ variable "roles_path" {
   type = string
   description = "the path to save the roles related to bootstrap"
   default = "bootstrap"
-}
-
-variable "bucket_name" {
-  type = string
-  description = "The bucket name"
-  default = "terraform"
 }
 
 variable "account_id" {
